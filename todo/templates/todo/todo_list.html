@@ -1,0 +1,9 @@
+{% extends 'todo/base.html' %}
+
+{% block content %}
+    <h1>{{ user.username }}のToDoリスト</h1>
+    {% for todo in todo_list %}
+    <p><li><a href="{% url 'todo_detail' todo.pk %}">{{ todo }}</a></li></p>
+    {% endfor %}
+    <a href="{% url 'todo_form' user.pk %}">ToDoを追加</a>
+{% endblock %}
