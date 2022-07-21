@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from .forms import LoginForm
 
-class login(LoginView):
+class Login(LoginView):
     form_class = LoginForm
     template_name = 'register/login.html'
 
