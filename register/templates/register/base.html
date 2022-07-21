@@ -1,0 +1,51 @@
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+        <title>ToDoリスト</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'todo:todo_list' %}">HOME</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    {% if user.is_authenticated %}
+                    <li>
+                        <a class="nav-item nav-link" href="{% url 'register:user_detail' user.pk %}">ユーザー情報閲覧</a>
+                    </li>
+                    <li>
+                        <a class="nav-item nav-link" href="{% url 'register:user_update' user.pk %}">ユーザー情報更新</a>
+                    </li>
+                    <li>
+                        <a class="nav-item nav-link" href="{% url 'register:user_logout' user.pk %}">ログアウト</a>
+                    </li>
+                    <li>
+                        <a class="nav-item nav-link" href="{% url 'register:password_change' user.pk %}">パスワードの変更</a>
+                    </li>
+                    <li>
+                        <a class="nav-item nav-link" href="{% url 'register:email_change' user.pk %}">メールアドレスの変更</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a href="{% url 'register:login' %}">
+                            ログインしてください
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+        <div class="container mt-3">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+        <script src="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    </body>
+</html>

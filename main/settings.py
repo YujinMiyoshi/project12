@@ -124,10 +124,10 @@ STATIC_URL = 'static/'
 
 AUTH_USER_MODEL = 'register.User'
 
-LOGIN_URL = 'login'
+LOGIN_URL = 'register:login'
 
-LOGIN_REDIRECT_URL = 'todo_list'
+LOGIN_REDIRECT_URL = 'todo:todo_list'
 
-LOGOUT_REDIRECT_URL = 'todo_list'
+LOGOUT_REDIRECT_URL = 'register:login'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
