@@ -130,4 +130,6 @@ LOGIN_REDIRECT_URL = 'todo:todo_list'
 
 LOGOUT_REDIRECT_URL = 'register:login'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
