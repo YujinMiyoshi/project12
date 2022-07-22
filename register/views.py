@@ -11,6 +11,7 @@ from django.core.signing import BadSignature, SignatureExpired, loads, dumps
 from django.http import Http404, HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
+from django.contrib.auth import login
 
 User = get_user_model()
 
@@ -39,15 +40,42 @@ class UserCreate(CreateView):
             'user': user,
         }
 
-        subject = render_to_string('register/mail_template/create/aubject.txt', context)
+        subject = render_to_string('register/mail_template/create/subject.txt', context)
         message = render_to_string('register/mail_template/create/message.txt', context)
 
         user.email_user(subject, message)
-        return redirect('register:user_create_done')
+        return redirect('done/')
 
 class UserCreateDone(TemplateView):
     template_name = 'register/user_create_done.html'
 
+class UserCreateComplete(TemplateView):
+    template_name = 'register/user_create_complete.html'
+    timeout_seconds = getattr(settings, 'ACTIVATION_TIMEOUT_SECONDS', 60*60*24)
 
+    def get(self, request, **kwargs):
+        token =  kwargs.get('token')
+        try:
+            user_pk = loads(token, max_age=self.timeout_seconds)
+
+        except SignatureExpired:
+            return HttpResponseBadRequest()
+
+        except BadSignature:
+            return HttpResponseBadRequest()
+
+        else:
+            try:
+                user = User.objects.get(pk=user_pk)
+            except User.DoesNotExist:
+                return HttpResponseBadRequest()
+            else:
+                if not user.is_active:
+                    user.is_active = True
+                    #login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                    user.save()
+                    return super().get(request, **kwargs)
+
+        return HttpResponseBadRequest()
 
 # Create your views here.
